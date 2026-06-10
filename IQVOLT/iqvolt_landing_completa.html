@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IQVOLT — Energía · Inteligencia · Futuro</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0f0f0e;
+    --white: #f7f5f0;
+    --green-mid: #6bbf47;
+    --green-dark: #3b6d11;
+    --green-light: #c0dd97;
+    --green-pale: #eaf3de;
+    --gray: #888780;
+    --gray-light: #d3d1c7;
+    --gray-pale: #f1efe8;
+  }
+  html { scroll-behavior: smooth; zoom: 1.25; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.4rem 4rem;
+    background: rgba(247,245,240,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-light);
+  }
+  .nav-logo { display: flex; align-items: center; }
+  .nav-logo img { height: 80px; width: 180px; object-fit: contain; object-position: left center; display: block; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.9rem; font-weight: 400; color: var(--gray); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--black); }
+  .nav-cta { background: var(--black); color: var(--white) !important; padding: 0.55rem 1.4rem; border-radius: 100px; font-weight: 500 !important; transition: background 0.2s, transform 0.15s !important; }
+  .nav-cta:hover { background: var(--green-dark) !important; transform: translateY(-1px); }
+
+  /* HERO */
+  #inicio { display: flex; align-items: flex-start; padding: 6rem 4rem 4rem; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 80% 50%, #c0dd97 0%, transparent 65%); opacity: 0.35; pointer-events: none; }
+  .hero-grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(107,191,71,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(107,191,71,0.08) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; }
+  .hero-content { position: relative; z-index: 2; max-width: 720px; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green-dark); background: var(--green-pale); border: 1px solid var(--green-light); padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 2rem; animation: fadeUp 0.6s ease both; }
+  .hero-title { font-family: 'Syne', sans-serif; font-size: clamp(3.5rem, 7vw, 5.5rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 1.8rem; animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-title .accent { color: var(--green-mid); }
+  .hero-tagline { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-bottom: 1.8rem; animation: fadeUp 0.6s 0.15s ease both; }
+  .hero-tagline span { display: flex; align-items: center; gap: 0.5rem; }
+  .hero-tagline .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green-mid); }
+  .hero-desc { font-size: 1.15rem; line-height: 1.7; color: #444441; max-width: 540px; margin-bottom: 2.5rem; animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.25s ease both; }
+  .btn-primary { background: var(--black); color: var(--white); padding: 0.9rem 2rem; border-radius: 100px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: background 0.2s, transform 0.15s; display: inline-flex; align-items: center; gap: 0.5rem; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+  .btn-secondary { background: transparent; color: var(--black); padding: 0.9rem 2rem; border-radius: 100px; font-size: 0.95rem; font-weight: 500; text-decoration: none; border: 1.5px solid var(--gray-light); transition: border-color 0.2s, transform 0.15s; display: inline-flex; align-items: center; gap: 0.5rem; }
+  .btn-secondary:hover { border-color: var(--green-mid); transform: translateY(-2px); }
+  .hero-visual { position: absolute; right: 4rem; top: 50%; transform: translateY(-50%); z-index: 1; animation: fadeIn 1s 0.3s ease both; }
+  .hero-card { background: var(--white); border: 1px solid var(--gray-light); border-radius: 20px; padding: 2rem; width: 280px; box-shadow: 0 24px 80px rgba(15,15,14,0.08); }
+  .hero-card-label { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem; }
+  .hero-card-value { font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 800; color: var(--green-mid); line-height: 1; margin-bottom: 0.3rem; }
+  .hero-card-sub { font-size: 0.85rem; color: var(--gray); }
+  .hero-card-divider { height: 1px; background: var(--gray-light); margin: 1.2rem 0; }
+  .hero-bar-row { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.5rem; color: #444441; }
+  .hero-bar-track { height: 4px; background: var(--gray-pale); border-radius: 100px; overflow: hidden; margin-top: 0.3rem; margin-bottom: 0.8rem; }
+  .hero-bar-fill { height: 100%; background: var(--green-mid); border-radius: 100px; }
+
+  /* SHARED */
+  section { padding: 6rem 4rem; }
+  .section-label { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green-dark); font-weight: 500; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem; }
+  .section-label::before { content: ''; display: inline-block; width: 24px; height: 2px; background: var(--green-mid); border-radius: 2px; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.2rem; }
+  .section-desc { font-size: 1.05rem; line-height: 1.7; color: #444441; max-width: 560px; margin-bottom: 3rem; }
+
+  /* NOSOTROS */
+  #nosotros { background: var(--black); color: var(--white); }
+  #nosotros .section-label { color: var(--green-light); }
+  #nosotros .section-label::before { background: var(--green-mid); }
+  #nosotros .section-title { color: var(--white); }
+  #nosotros .section-desc { color: #b4b2a9; }
+  .pilares-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .pilar-card { background: #1a1a18; border: 1px solid #2c2c2a; border-radius: 16px; padding: 2rem; transition: border-color 0.3s, transform 0.3s; }
+  .pilar-card:hover { border-color: var(--green-mid); transform: translateY(-4px); }
+  .pilar-icon { width: 48px; height: 48px; background: #2c2c2a; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; font-size: 1.4rem; }
+  .pilar-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--white); margin-bottom: 0.6rem; }
+  .pilar-desc { font-size: 0.9rem; line-height: 1.6; color: #888780; }
+
+  /* SERVICIOS */
+  #servicios { background: var(--gray-pale); }
+  .servicios-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .servicio-card { background: var(--white); border: 1px solid var(--gray-light); border-radius: 16px; padding: 2rem 2.5rem; display: flex; gap: 1.5rem; align-items: flex-start; transition: box-shadow 0.3s, transform 0.3s; }
+  .servicio-card:hover { box-shadow: 0 12px 40px rgba(107,191,71,0.12); transform: translateY(-3px); }
+  .servicio-num { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--green-pale); line-height: 1; min-width: 40px; user-select: none; }
+  .servicio-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .servicio-desc { font-size: 0.9rem; line-height: 1.65; color: #5f5e5a; }
+
+  /* EQUIPO */
+  #equipo { background: var(--gray-pale); }
+  .equipo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .eq-card { background: var(--white); border: 1px solid var(--gray-light); border-radius: 20px; overflow: hidden; transition: box-shadow 0.3s, transform 0.3s; }
+  .eq-card:hover { box-shadow: 0 16px 48px rgba(107,191,71,0.13); transform: translateY(-4px); }
+  .eq-avatar { width: 100%; aspect-ratio: 1/1; background: var(--green-pale); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--gray-light); position: relative; overflow: hidden; }
+  .eq-avatar img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .eq-body { padding: 1.5rem; }
+  .eq-name { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--black); margin-bottom: 0.3rem; }
+  .eq-role { display: inline-block; font-size: 0.78rem; font-weight: 500; color: var(--green-dark); background: var(--green-pale); border: 1px solid var(--green-light); padding: 0.25rem 0.75rem; border-radius: 100px; margin-bottom: 1rem; letter-spacing: 0.04em; }
+  .eq-divider { height: 1px; background: var(--gray-light); margin: 1rem 0; }
+  .eq-hint { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: #97c459; }
+  .eq-hint-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-mid); flex-shrink: 0; }
+
+  /* CONTACTO */
+  #contacto { background: var(--white); }
+  .contacto-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contacto-detail { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; font-size: 0.95rem; color: #444441; }
+  .contacto-detail-icon { width: 40px; height: 40px; background: var(--green-pale); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .contacto-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: flex; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
+  .form-group label { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; color: #5f5e5a; }
+  .form-group input, .form-group textarea, .form-group select { padding: 0.75rem 1rem; border-radius: 10px; border: 1.5px solid var(--gray-light); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; background: var(--white); color: var(--black); outline: none; transition: border-color 0.2s; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--green-mid); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-submit { background: var(--black); color: var(--white); border: none; padding: 1rem 2rem; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: background 0.2s, transform 0.15s; align-self: flex-start; display: flex; align-items: center; gap: 0.5rem; }
+  .form-submit:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer { background: var(--black); color: #888780; padding: 2.5rem 4rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #2c2c2a; }
+  .footer-logo img { height: 36px; width: auto; display: block; }
+  .footer-tagline { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .footer-copy { font-size: 0.82rem; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-50%) scale(0.96); } to { opacity: 1; transform: translateY(-50%) scale(1); } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    html { zoom: 1; }
+
+    nav { padding: 0.5rem 1.2rem; }
+    .nav-logo img { height: 55px; width: 130px; }
+    .nav-links { display: none; }
+
+    section { padding: 3rem 1.2rem; }
+    #inicio { padding: 5rem 1.2rem 2.5rem; }
+
+    .hero-title { font-size: 2.6rem; line-height: 1.05; }
+    .hero-desc { font-size: 1rem; }
+    .hero-eyebrow { font-size: 0.7rem; }
+    .hero-visual { display: none; }
+    .hero-buttons { flex-direction: column; }
+    .btn-primary, .btn-secondary { justify-content: center; text-align: center; }
+
+    .section-title { font-size: 1.8rem; }
+    .section-desc { font-size: 0.95rem; margin-bottom: 2rem; }
+
+    .pilares-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .servicios-grid { grid-template-columns: 1fr; }
+    .equipo-grid { grid-template-columns: 1fr; }
+
+    .servicio-card { flex-direction: column; gap: 0.8rem; padding: 1.5rem; }
+    .servicio-num { font-size: 1.8rem; }
+
+    .eq-avatar { aspect-ratio: 3/2; }
+
+    .contacto-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .form-row { flex-direction: column; }
+
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 1.2rem; }
+    .footer-logo img { height: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><img src="logo-iqvolt.png" alt="IQVOLT"></div>
+  <ul class="nav-links">
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">⚡ Eficiencia Energética</div>
+    <h1 class="hero-title">El futuro<br>energético<br><span class="accent">empieza aquí.</span></h1>
+    <div class="hero-tagline">
+      <span><div class="dot"></div> Energía</span>
+      <span><div class="dot"></div> Inteligencia</span>
+      <span><div class="dot"></div> Futuro</span>
+    </div>
+    <p class="hero-desc">En IQVOLT transformamos la manera en que empresas y organizaciones gestionan, optimizan y proyectan su consumo energético hacia un modelo inteligente y sostenible.</p>
+    <div class="hero-buttons">
+      <a href="#servicios" class="btn-primary">Ver nuestros servicios →</a>
+      <a href="#contacto" class="btn-secondary">Contáctanos</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="hero-card-label">Ahorro promedio logrado</div>
+      <div class="hero-card-value">38%</div>
+      <div class="hero-card-sub">en consumo energético anual</div>
+      <div class="hero-card-divider"></div>
+      <div class="hero-bar-row"><span>Solar</span><span style="color:var(--green-mid);font-weight:500">82%</span></div>
+      <div class="hero-bar-track"><div class="hero-bar-fill" style="width:82%"></div></div>
+      <div class="hero-bar-row"><span>Eficiencia</span><span style="color:var(--green-mid);font-weight:500">67%</span></div>
+      <div class="hero-bar-track"><div class="hero-bar-fill" style="width:67%"></div></div>
+      <div class="hero-bar-row"><span>Almacenamiento</span><span style="color:var(--green-mid);font-weight:500">54%</span></div>
+      <div class="hero-bar-track"><div class="hero-bar-fill" style="width:54%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+  <div class="section-label reveal">Quiénes somos</div>
+  <h2 class="section-title reveal">Inteligencia aplicada<br>a la energía</h2>
+  <p class="section-desc reveal">Somos un equipo de consultores especializados en transición energética, eficiencia operacional y tecnologías limpias. Combinamos datos, ingeniería y estrategia para entregar soluciones reales.</p>
+  <div class="pilares-grid">
+    <div class="pilar-card reveal">
+      <div class="pilar-icon">🌿</div>
+      <div class="pilar-title">Sostenibilidad</div>
+      <div class="pilar-desc">Diseñamos estrategias que equilibran rentabilidad con responsabilidad ambiental, reduciendo huella de carbono sin sacrificar competitividad.</div>
+    </div>
+    <div class="pilar-card reveal">
+      <div class="pilar-icon">💡</div>
+      <div class="pilar-title">Inteligencia</div>
+      <div class="pilar-desc">Usamos análisis de datos avanzado y modelamiento energético para tomar decisiones informadas y anticipar escenarios futuros.</div>
+    </div>
+    <div class="pilar-card reveal">
+      <div class="pilar-icon">⚡</div>
+      <div class="pilar-title">Resultados</div>
+      <div class="pilar-desc">Nos comprometemos con métricas concretas: ahorro en facturas, reducción de emisiones y retorno de inversión medible en cada proyecto.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="section-label reveal">Nuestra solución</div>
+  <h2 class="section-title reveal">Energía inteligente,<br>cuenta más baja.</h2>
+  <p class="section-desc reveal">IQVolt combina un <strong>sensor físico</strong> con una <strong>app inteligente</strong>: instalas el dispositivo, conectas la app y en minutos sabes exactamente cuánta energía consumes, qué aparatos gastan más y cómo reducir tu cuenta de la luz.</p>
+  <div class="servicios-grid">
+    <div class="servicio-card reveal">
+      <div class="servicio-num">01</div>
+      <div>
+        <div class="servicio-title">Monitoreo en tiempo real</div>
+        <div class="servicio-desc">El sensor se instala en tu hogar o negocio y mide el consumo por circuito al instante. Sin obras, sin complicaciones.</div>
+      </div>
+    </div>
+    <div class="servicio-card reveal">
+      <div class="servicio-num">02</div>
+      <div>
+        <div class="servicio-title">App clara y visual</div>
+        <div class="servicio-desc">Ve tus datos en una pantalla simple, recibe alertas de consumo anómalo y entiende en qué se va tu energía, hora a hora.</div>
+      </div>
+    </div>
+    <div class="servicio-card reveal">
+      <div class="servicio-num">03</div>
+      <div>
+        <div class="servicio-title">Detección de ineficiencias</div>
+        <div class="servicio-desc">Identificamos qué electrodomésticos consumen más y en qué momentos del día tu gasto sube innecesariamente.</div>
+      </div>
+    </div>
+    <div class="servicio-card reveal">
+      <div class="servicio-num">04</div>
+      <div>
+        <div class="servicio-title">Recomendaciones personalizadas</div>
+        <div class="servicio-desc">La app analiza tus patrones y te dice qué conviene reemplazar, en qué horarios usar la lavadora y cuánto puedes ahorrar cada mes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section id="equipo">
+  <div class="section-label reveal">Conoce al equipo</div>
+  <h2 class="section-title reveal">Las personas detrás<br>de IQVOLT</h2>
+  <p class="section-desc reveal">Un equipo multidisciplinario comprometido con llevar inteligencia energética a cada proyecto.</p>
+  <div class="equipo-grid">
+
+    <div class="eq-card reveal">
+      <div class="eq-avatar">
+        <img src="foto-maka.jpg" alt="Macarena">
+      </div>
+      <div class="eq-body">
+        <div class="eq-name">Macarena Díaz Gonzales</div>
+        <div class="eq-role">Redes Comunicacionales</div>
+      </div>
+    </div>
+
+    <div class="eq-card reveal">
+      <div class="eq-avatar">
+        <img src="foto-vale.jpg" alt="Valentina">
+      </div>
+      <div class="eq-body">
+        <div class="eq-name">Valentina Carrasquero Sierraalta</div>
+    
+        <div class="eq-role">Dir. Marketing</div>
+      </div>
+    </div>
+
+    <div class="eq-card reveal">
+      <div class="eq-avatar">
+        <img src="foto-alonso.png" alt="Alonso">
+      </div>
+      <div class="eq-body">
+        <div class="eq-name">Alonso Silva Pallamares</div>
+        <div class="eq-role">Director Ejecutivo</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="section-label reveal">Hablemos</div>
+  <h2 class="section-title reveal">¿Listo para optimizar<br>tu energía?</h2>
+  <div class="contacto-inner">
+    <div class="contacto-info reveal">
+      <p class="section-desc" style="margin-bottom:2rem">Cuéntanos sobre tu organización y te ayudaremos a identificar el primer paso hacia una operación más eficiente e inteligente.</p>
+      <div class="contacto-detail">
+        <div class="contacto-detail-icon">📧</div>
+        <span>contacto@iqvolt.cl</span>
+      </div>
+      <div class="contacto-detail">
+        <div class="contacto-detail-icon">📍</div>
+        <span>Santiago, Chile</span>
+      </div>
+      <div class="contacto-detail">
+        <div class="contacto-detail-icon">🕐</div>
+        <span>Lunes a Viernes, 9:00 – 18:00</span>
+      </div>
+    </div>
+    <form class="contacto-form reveal" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Empresa</label>
+          <input type="text" placeholder="Nombre de la empresa">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Correo electrónico</label>
+        <input type="email" placeholder="correo@empresa.cl" required>
+      </div>
+      <div class="form-group">
+        <label>¿En qué podemos ayudarte?</label>
+        <select>
+          <option value="">Selecciona un servicio...</option>
+          <option>Diagnóstico Energético</option>
+          <option>Estrategia de Transición</option>
+          <option>Gestión de Contratos Energéticos</option>
+          <option>Monitoreo & Reportería</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Mensaje</label>
+        <textarea placeholder="Cuéntanos brevemente sobre tu situación o consulta..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">Enviar mensaje →</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo"><img src="logo-iqvolt.png" alt="IQVOLT" style="filter: brightness(0) invert(1);"></div>
+    <div class="footer-tagline" style="margin-top:0.3rem">Energía · Inteligencia · Futuro</div>
+  </div>
+  <div class="footer-copy">© 2026 IQVOLT. Todos los derechos reservados.</div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '¡Mensaje enviado! ✓';
+    btn.style.background = '#3b6d11';
+    btn.disabled = true;
+    setTimeout(() => { btn.textContent = 'Enviar mensaje →'; btn.style.background = ''; btn.disabled = false; e.target.reset(); }, 3000);
+  }
+</script>
+</body>
+</html>
